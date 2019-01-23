@@ -16,41 +16,32 @@
             <form th:action="@{/addUserFromGoogle}" method="post" th:object="${student}"
                        name="f1" onsubmit="return matchpass()">
                 <div class="top-row">
-                    <div th:if="${session.name != null}">
-                    <div class="field-wrap">
+                    <div th:if="${session.name != null}" class="field-wrap">
                         <label th:text="Nome+':'+' '+${session.name}"/>
                         <input type="hidden" th:value="${session.name}" th:field="*{name}"  placeholder="Nome"/>
                     </div>
-                    </div>
-
-                    <div th:if="${session.surname!=null}">
-                    <div class="field-wrap">
+                    <div th:if="${session.surname!=null}" class="field-wrap">
                         <label th:text="Cognome+':'+' '+${session.surname}"/>
                         <input type="hidden" th:value="${session.surname}" th:field="*{surname}"  placeholder="Cognome"/>
-                    </div>
                     </div>
                     <div class="field-wrap">
                         <label th:text="Email+':'+' '+${session.email}"/>
                         <input type="hidden" th:value="${session.email}" th:field="*{email}"  placeholder="Email"/>
                     </div>
                     <br/>
-                    <div th:if="${session.name==null}">
-                        <div class="field-wrap">
+                        <div th:if="${session.name==null}" class="field-wrap">
                         <label>Nome</label>
                             <input type="text" placeholder="Nome" th:field="*{name}"/>
                             <font size="3" color="red"><span th:text="${session.errName}"/></font>
 
                         </div>
-                    </div>
                     <br/>
-                    <div th:if="${session.surname==null}">
-                        <div class="field-wrap">
+                        <div th:if="${session.surname==null}" class="field-wrap">
                             <label>Cognome</label>
                             <input type="text" placeholder="Cognome" th:field="*{surname}"/>
                             <font size="3" color="red"><span th:text="${session.errSurname}"/></font>
 
                         </div>
-                    </div>
                     <br/>
                     <div class="field-wrap">
                         <label> Scuola </label>

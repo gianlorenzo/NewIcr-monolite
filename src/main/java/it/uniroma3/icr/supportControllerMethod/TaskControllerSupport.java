@@ -101,7 +101,7 @@ public class TaskControllerSupport {
             session.setAttribute("jsPath",jsScriptService.getJsFile(jsScriptService.getScriptPath(),task.getJob().getTypology()));
             session.setAttribute("taskResults", taskResults);
             model.addAttribute("task", task);
-            model.addAttribute("jsPath",jsScriptService.getJsFile(jsScriptService.getScriptPath(),task.getJob().getTypology()));
+            //model.addAttribute("jsPath",jsScriptService.getJsFile(jsScriptService.getScriptPath(),task.getJob().getTypology()));
             model.addAttribute("taskResults", taskResults);
             model.addAttribute("hint", hint);
             LOGGER.info("4 - end taskChoose task " +

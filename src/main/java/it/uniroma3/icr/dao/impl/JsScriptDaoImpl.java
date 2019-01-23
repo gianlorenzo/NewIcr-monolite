@@ -12,8 +12,14 @@ public class JsScriptDaoImpl {
     public String getJsFile(String path,String typologyDirectory) {
         String jsPath = path.concat(typologyDirectory);
         File[] file = new File(jsPath).listFiles();
-
-        return file[0].getName();
+        if(file.length>1) {
+            for (int i = 0; i < file.length; i++) {
+                System.out.println(file[1].getName());
+                if (!file[i].getName().equals(typologyDirectory.concat(".js")))
+                    file[i].delete();
+            }
+        }
+        return typologyDirectory.concat(".js");
 
     }
 
