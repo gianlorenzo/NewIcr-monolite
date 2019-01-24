@@ -24,7 +24,7 @@
         <tr>
             <th:block th:each="sample : ${session.positiveSamples}">
                 <td>
-                        <img th:src="|/${sample.path}|" th:alt="${sample.id}"/>
+                        <img th:src="@{|/${sample.path}|}" th:alt="${sample.id}"/>
                 </td>
             </th:block>
         </tr>
@@ -35,7 +35,7 @@
     <div align="center">
         <table>
             <th:block th:each="id, result : ${taskResults.resultList}">
-                <div id="canvasWrapper" style="height: 200px"></div>
+                <div id="canvasWrapper" style="height: 200px"/>
                 <div class="componi">
                     <h3 class="compose">
                         Scrivi nell'area di testo sottostante
@@ -92,7 +92,7 @@
             <tr>
                 <th:block th:each="noSample : ${session.negativeSamples}">
                     <td>
-                        <img th:src="|/${noSample.path}|" th:alt="${noSample.id}"/>
+                        <img th:src="@{|/${noSample.path}|}" th:alt="${noSample.id}"/>
                     </td>
                 </th:block>
             </tr>
@@ -106,11 +106,14 @@
     </form>
 </div>
 
+<img id="taskImage" th:src="@{|/${taskResults.resultList[0].image.path}|}" style="display: none;"/>
+
 
 <script  th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
-
-        var c = new ExtendedCanvas('#canvasWrapper','/'.concat([[${taskResults.resultList[0].image.path}]]),[[${hint}]],[[${taskResults.resultList[0].task.job.tutorial}]]);
+        var img = document.getElementById('taskImage').getAttribute('src');
+        console.log(img);
+        var c = new ExtendedCanvas('#canvasWrapper',document.getElementById('taskImage').getAttribute('src'),[[${hint}]],[[${taskResults.resultList[0].task.job.tutorial}]]);
         c.element.addEventListener('click', function (e) {
             var x = e.pageX - this.offsetLeft;
             var y = e.pageY - this.offsetTop;
@@ -160,17 +163,15 @@
     });
 
 </script>
-<script src="/js/selectAll.js"></script>
-<script th:src="|/jobScripts/${session.task.job.typology}/${session.jsPath}|"></script>
-<script src="/js/jquery.min.js"></script>
-<script
-        src="/js/jquery.scrollex.min.js"></script>
-<script
-        src="/js/jquery.scrolly.min.js"></script>
-<script src="/js/skel.min.js"></script>
-<script src="/js/util.js"></script>
-<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
-<script src="/js/main.js"></script>
-<script src="/js/backButton.js"></script>
+<script th:src="@{/js/selectAll.js}"></script>
+<script th:src="@{|/jobScripts/${session.task.job.typology}/${session.jsPath}|}"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/jquery.scrollex.min.js}"></script>
+<script th:src="@{/js/jquery.scrolly.min.js}"></script>
+<script th:src="@{/js/skel.min.js}"></script>
+<script th:src="@{/js/util.js}"></script>
+<script th:src="@{/js/ie/respond.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/backButton.js}"></script>
 </body>
 </html>

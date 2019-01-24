@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
+import it.uniroma3.icr.supportControllerMethod.SetSchools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -74,6 +75,7 @@ public class AdminController {
 
     private SetTypology setTypology = new SetTypology();
 
+    private SetSchools setSchools = new SetSchools();
 
     @Qualifier("adminValidator")
     private Validator validator;
@@ -112,6 +114,19 @@ public class AdminController {
             return "administration/registrationAdmin";
         }
 
+    }
+    /*--------------------------------------------REGISTRA Studente------------------------------------------------------------------------*/
+
+    @RequestMapping(value = "admin/registration", method = RequestMethod.GET)
+    public String registrazione(@ModelAttribute Student student, Model model) {
+
+        Map<String, String> schoolGroups = new HashMap<String, String>();
+        schoolGroups.put("3", "3");
+        schoolGroups.put("4", "4");
+        schoolGroups.put("5", "5");
+        model.addAttribute("schoolGroups", schoolGroups);
+        model.addAttribute("schools", setSchools.setSchools());
+        return "administration/registration";
     }
     /*--------------------------------------------INSERISCI JOB------------------------------------------------------------------------*/
 
