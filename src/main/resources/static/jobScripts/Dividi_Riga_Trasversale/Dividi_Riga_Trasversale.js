@@ -29,9 +29,11 @@ var ExtendedCanvas = (function () {
     function loadImage(src, canvas2, cb) {
         var image = new Image();
         var canvas = this.element;
-        $('.negSamp').hide();
-        $('.pos').hide();
         $('.componi').hide();
+        $('.undoRiga').hide();
+
+        $('.toStart').hide();
+
         $('.undoColor').hide();
         $('.buttonSi').hide();
         $('.buttonNo').hide();
@@ -90,30 +92,6 @@ var ExtendedCanvas = (function () {
         d[index + 3] = color[3];
     }
 
-    ExtendedCanvas.prototype.setOutput = function (out) {
-        this.output = out.slice();
-    }
-
-
-    ExtendedCanvas.prototype.fill = function (x, y, fillColor) {
-        if (x < 0 || y < 0 || x > canvas.width || y > canvas.height) {
-            return;
-        }
-
-        fillColor = fillColor || [0, 0, 0, 255];
-        var color = this.getPixelColor(x, y).join();
-
-        if (color === fillColor || color === [255, 255, 255, 255].join()) {
-            return;
-        }
-
-        if (color === fillColor.join()) {
-            return;
-        }
-        this.output.push(color);
-        temp = [];
-        this.fillImg(fillColor);
-    }
 
     ExtendedCanvas.prototype.fillImg = function (fillColor) {
         var stack = [];
@@ -135,57 +113,99 @@ var ExtendedCanvas = (function () {
         context.putImageData(data, 0, 0);
     }
 
+
+    ExtendedCanvas.prototype.setOutput = function (out) {
+        this.output = out;
+    }
+
     ExtendedCanvas.prototype.getOutput = function () {
         return this.output;
     }
 
-    ExtendedCanvas.prototype.drawLines = function () {
-        var started = false;
+    ExtendedCanvas.prototype.drawTrasversalLines = function() {
+        var startX = 0;
+        var startY = 0;
+        var isDown;
         mouseClick = this.output;
-        prvX = 0;
-        prvY = 0;
         $("#canvasWrapper").bind("mousedown", function (e) {
-            prvX = e.offsetX;
-            prvY = e.offsetY;
-            started = true;
-        });
+            e.preventDefault();
+            e.stopPropagation();
+            var mouseX = e.offsetX;
+            var mouseY = e.offsetY;
+            isDown = true;
+            startX = mouseX;
+            startY = mouseY;
 
+        });
         $("#canvasWrapper").bind("mouseup", function (e) {
-            if (!started) return;
+            e.preventDefault();
+            e.stopPropagation();
+            if(!isDown) return;
+            var mouseX = e.offsetX;
+            var mouseY = e.offsetY;
+            // draw the current line
             context.beginPath();
-            context.moveTo(e.offsetX, e.offsetY);
-            context.lineTo(e.offsetX, e.offsetX + canvas.height);
+            context.moveTo(startX, startY);
+            context.lineTo(mouseX, mouseY);
             context.stroke();
-            context.closePath();
-            if (!mouseClick.includes(e.offsetX)) {
-                mouseClick.push(e.offsetX);
-            }
-            console.log("len:" + mouseClick.length);
+            context.closePath()
+            isDown = false;
+            mouseClick.push([startX,startY,mouseX,mouseY]);
+            mouseClick.removeDuplicates();
+
+
+
         });
 
+        $("#canvasWrapper").mouseout(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!isDown) {
+                return;
+            }
+            isDown = false;
+        });
     }
 
-    ExtendedCanvas.prototype.undoRiga = function () {
+    Array.prototype.removeDuplicates = function() {
+        var input = this;
+        var hashObject = new Object();
+        for (var i = input.length - 1; i >= 0; i--) {
+            var currentItem = input[i];
+
+            if (hashObject[currentItem] == true) {
+                input.splice(i, 1);
+            }
+            hashObject[currentItem] = true;
+        }
+        return input;
+    }
+
+    ExtendedCanvas.prototype.undoRigaTrasversale = function () {
         o = this.output;
         if (o.length > 0) {
-            o.splice(-1, 1)
+            o.splice(-1,1);
             var canvasPic = new Image();
             canvasPic.src = dataOrig;
             canvasPic.onload = function () {
                 context.drawImage(canvasPic, 0, 0);
                 for (var i = 0; i < o.length; i++) {
-                    context.beginPath();
-                    context.moveTo(o[i], 0);
-                    context.lineTo(o[i], o[i] + canvas.height);
-                    context.stroke();
-                    context.closePath();
+                    console.log("pop:"+o);
+                    for(var y=0;y<o[i].length;y++) {
+                        context.beginPath();
+                        context.moveTo(o[i][0],o[i][1]);
+                        context.lineTo(o[i][2],o[i][3]);
+                        context.stroke();
+                        context.closePath();
+                    }
                 }
             };
         }
 
     }
 
-    ExtendedCanvas.prototype.undoToStart = function () {
+
+    ExtendedCanvas.prototype.undoToStartTrasversale = function () {
         var canvasPic = new Image();
         this.output = [];
         canvasPic.src = dataOrig;
@@ -193,6 +213,8 @@ var ExtendedCanvas = (function () {
             context.drawImage(canvasPic, 0, 0);
             data = context.getImageData(0, 0, canvas.width, canvas.height);
         };
+
+
     }
 
     ExtendedCanvas.prototype.checkAnswer = function () {

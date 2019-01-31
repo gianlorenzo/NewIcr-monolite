@@ -29,13 +29,12 @@ var ExtendedCanvas = (function () {
     function loadImage(src, canvas2, cb) {
         var image = new Image();
         var canvas = this.element;
-        $('.negSamp').hide();
-        $('.pos').hide();
+        $('.componi').hide();
+        $('.undoRigaTrasversale').hide();
+        $('.toStartTrasversale').hide();
         $('.toStart').hide();
         $('.undoColor').hide();
         $('.undoRiga').hide();
-        $('.buttonSi').hide();
-        $('.buttonNo').hide();
         $('.selectword').hide();
         image.onload = function () {
             cb(this);
@@ -141,12 +140,6 @@ var ExtendedCanvas = (function () {
         return this.output;
     }
 
-
-    ExtendedCanvas.prototype.undoComponi = function () {
-
-        document.getElementById('text').value = '';
-    }
-
     ExtendedCanvas.prototype.checkAnswer = function () {
         if (!this.tutorial) return true;
         temp = this.output.sort();
@@ -184,6 +177,7 @@ var ExtendedCanvas = (function () {
             tempthis.fillImg("0,0,0,255".split(","));
         };
     }
+
     return ExtendedCanvas;
 })();
 

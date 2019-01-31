@@ -30,6 +30,8 @@ var ExtendedCanvas = (function () {
         var image = new Image();
         var canvas = this.element;
         $('.componi').hide();
+        $('.undoRigaTrasversale').hide();
+        $('.toStartTrasversale').hide();
         $('.undoRiga').hide();
         $('.buttonSi').hide();
         $('.buttonNo').hide();

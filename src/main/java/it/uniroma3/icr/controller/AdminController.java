@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
+import it.uniroma3.icr.service.impl.*;
 import it.uniroma3.icr.supportControllerMethod.SetSchools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +24,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import it.uniroma3.icr.supportControllerMethod.SetTypology;
 import it.uniroma3.icr.model.Administrator;
 import it.uniroma3.icr.model.ComparatoreSimboloPerNome;
 import it.uniroma3.icr.model.Image;
@@ -36,15 +36,6 @@ import it.uniroma3.icr.model.Student;
 import it.uniroma3.icr.model.Symbol;
 import it.uniroma3.icr.model.Task;
 import it.uniroma3.icr.service.editor.SymbolEditor;
-import it.uniroma3.icr.service.impl.AdminService;
-import it.uniroma3.icr.service.impl.ImageService;
-import it.uniroma3.icr.service.impl.JobService;
-import it.uniroma3.icr.service.impl.ManuscriptService;
-import it.uniroma3.icr.service.impl.NegativeSampleService;
-import it.uniroma3.icr.service.impl.SampleService;
-import it.uniroma3.icr.service.impl.StudentService;
-import it.uniroma3.icr.service.impl.SymbolService;
-import it.uniroma3.icr.service.impl.TaskService;
 import it.uniroma3.icr.validator.AdminValidator;
 import it.uniroma3.icr.validator.jobValidator;
 
@@ -66,14 +57,14 @@ public class AdminController {
     @Autowired
     private TaskService facadeTask;
     @Autowired
+    private JsScriptService jsScriptService;
+    @Autowired
     private SymbolService symbolService;
     ;
     @Autowired
     private ImageService imageService;
     @Autowired
     private ManuscriptService manuscriptService;
-
-    private SetTypology setTypology = new SetTypology();
 
     private SetSchools setSchools = new SetSchools();
 
@@ -157,7 +148,13 @@ public class AdminController {
         Collections.sort(symbols, new ComparatoreSimboloPerNome());
         job.setManuscript(manuscript);
         job.setTaskSize(1);
-        model.addAttribute("typology", setTypology.setTypology());
+        Map<String,String> typology = new HashMap<>();
+        String path = this.jsScriptService.getScriptPath();
+        List<String> directoryNames = this.jsScriptService.getAllJsDirectory(path);
+        for(String s : directoryNames) {
+            typology.put(s,s);
+        }
+        model.addAttribute("typology", typology);
         session.setAttribute("manuscript", manuscript);
         model.addAttribute("symbols", symbols);
         model.addAttribute("job", job);
@@ -188,7 +185,13 @@ public class AdminController {
             Collections.sort(symbols, new ComparatoreSimboloPerNome());
             job.setManuscript(manuscript);
             job.setTaskSize(1);
-            model.addAttribute("typology", setTypology.setTypology());
+            Map<String,String> typology = new HashMap<>();
+            String path = this.jsScriptService.getScriptPath();
+            List<String> directoryNames = this.jsScriptService.getAllJsDirectory(path);
+            for(String s : directoryNames) {
+                typology.put(s,s);
+            }
+            model.addAttribute("typology", typology);
             session.setAttribute("manuscript", manuscript);
             model.addAttribute("symbols", symbols);
             return "administration/insertJobByManuscript";

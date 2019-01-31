@@ -11,26 +11,26 @@
 <div th:include="users/menu"></div>
 
 <div class="relative">
-    <h2 th:text="'Task Effettuati da: '+${session.s.name}"/>
+    <h2 th:text="'Task Effettuati da: '+${s.name}"/>
 </div>
 <table>
     <tr>
         <th>Numero di Task Effettuati</th>
     </tr>
     <tr>
-        <th th:text="${session.s.taskEffettuati}"/>
+        <th th:text="${s.taskEffettuati}"/>
     </tr>
     <tr>
         <th>Tempo Impiegato</th>
     </tr>
     <tr>
-        <th th:text="${session.time}"/>
+        <th th:text="${time}"/>
     </tr>
     <tr>
         <th>Tempo medio per task (in secondi)</th>
     </tr>
     <tr>
-        <th th:text="${(session.s.tempoEffettuato - session.s.tempoEffettuato%session.s.taskEffettuati)/session.s.taskEffettuati}"/>
+        <th th:text="${(s.tempoEffettuato - s.tempoEffettuato%s.taskEffettuati)/s.taskEffettuati}"/>
     </tr>
 </table>
 
@@ -42,6 +42,5 @@
 <!--[if lte IE 8]>-->
 <script th:src="@{/js/ie/respond.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
-</body>
 </body>
 </html>

@@ -49,6 +49,7 @@ public class TaskControllerSupport {
                     tempTask++;
                     LOGGER.debug("6 - task " + task.getId() + " accomplished by student " + student.getId() + " - result " + result.getId());
                 }
+
                 resultService.updateListResult(taskResults);
                 for (Result result : taskResults.getResultList()) {
                     LOGGER.debug("7 - AFTER update: task " + result.getTask().getId() + " accomplished by student " + student.getId() + " - result " + result.getId());
@@ -100,7 +101,7 @@ public class TaskControllerSupport {
             session.setAttribute("task",task);
             session.setAttribute("jsPath",jsScriptService.getJsFile(jsScriptService.getScriptPath(),task.getJob().getTypology()));
             session.setAttribute("taskResults", taskResults);
-            model.addAttribute("task", task);
+            //model.addAttribute("task", task);
             //model.addAttribute("jsPath",jsScriptService.getJsFile(jsScriptService.getScriptPath(),task.getJob().getTypology()));
             model.addAttribute("taskResults", taskResults);
             model.addAttribute("hint", hint);
