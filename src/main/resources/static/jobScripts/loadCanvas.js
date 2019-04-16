@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
     c.element.addEventListener('click', function (e) {
         c.drawTrasversalLines(e)
     });
+    c.element.addEventListener('click', function (e) {
+        c.drawLines1(e)
+    });
+    c.element.addEventListener('click', function (e) {
+        c.drawTrasversalLines1(e)
+    });
+
     $("#undoColor").click(function () {
         c.undoColor();
     });
