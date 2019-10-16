@@ -24,7 +24,7 @@
         <tr>
             <th:block th:each="sample : ${positiveSamples}">
                 <td>
-                        <img th:src="@{|/${sample.path}|}" th:alt="${sample.id}"/>
+                    <img th:src="@{|/${sample.path}|}" th:alt="${sample.id}"/>
                 </td>
             </th:block>
         </tr>
@@ -36,12 +36,25 @@
         <table>
             <th:block th:each="id, result : ${taskResults.resultList}">
                 <div id="canvasWrapper" style="height: 200px"/>
+                <br />
+                <br />
                 <div class="componi">
                     <h3 class="compose">
                         Scrivi nell'area di testo sottostante
                         <br/> quella che secondo te è la parola completa
                     </h3>
                     <input type="text" id="text" name="name"/>
+                </div>
+                <div class="bottonRigtrasvDiv">
+                    <button  type="button" id="undotoStartTrasvDiv">RICOMINCIA</button>
+                    <button  type="button" id="undoRigaTrasvDiv">ANNULLA</button>
+                </div>
+                <div class="trasvDiv">
+                    <h3 class="compose">
+                        Scrivi nell'area di testo sottostante
+                        <br/> quella che secondo te è la parola completa
+                    </h3>
+                    <input type="text" id="textTrasvDiv" name="name"/>
                 </div>
                 <button class="toStart" type="button" id="undotoStart">RICOMINCIA</button>
                 <button class="toStartTrasversale" type="button" id="undotoStartTrasversale">RICOMINCIA</button>
@@ -53,13 +66,16 @@
 
 
                 <button class="componi" type="button" id="undoComponi">ANNULLA</button>
+                <div class="undoComponiTrasvDiv">
+                    <button  type="button" id="undoComponiTrasvDiv">ANNULLA</button>
+                </div>
                 <input class="buttonSi" type="submit" name="action" id="buttonSI"
                        value="SI"/>
                 <input class="buttonNo" type="submit" name="action" id="buttonNO"
                        value="NO"/>
 
                 <input type="hidden" id="output"
-                           th:field="*{resultList[__${result.index}__].answer}" placeholder="Answer"/>
+                       th:field="*{resultList[__${result.index}__].answer}" placeholder="Answer"/>
                 <br/>
                 <input type="hidden"
                        th:field="*{resultList[__${result.index}__].id}" placeholder="Id"/>
@@ -82,6 +98,11 @@
     </div>
     <div align="center" class="selectword">
         <input type="submit" name="action" id="confermaForm"
+               value="Conferma e vai al prossimo task"/>
+    </div>
+
+    <div align="center" class="trasvDiv">
+        <input type="submit" name="action" id="confermaFormTrasvDiv"
                value="Conferma e vai al prossimo task"/>
     </div>
 
@@ -115,7 +136,7 @@
 <div id="tutorial" th:value="${taskResults.resultList[0].task.job.tutorial}" style="display: none;"/>
 
 
-<script th:src="@{/jobScripts/loadCanvas.js}"/>
+<script th:src="@{/js/loadCanvas.js}"/>
 <script th:src="@{/js/selectAll.js}"></script>
 <script th:src="@{https://code.jquery.com/jquery-1.12.4.min.js}"></script>
 

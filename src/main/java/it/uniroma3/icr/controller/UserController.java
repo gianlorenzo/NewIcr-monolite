@@ -31,7 +31,7 @@ import it.uniroma3.icr.model.StudentSocial;
 import it.uniroma3.icr.service.impl.AdminService;
 import it.uniroma3.icr.service.impl.StudentService;
 import it.uniroma3.icr.service.impl.StudentServiceSocial;
-import it.uniroma3.icr.validator.studentValidator;
+import it.uniroma3.icr.validator.StudentValidator;
 import it.uniroma3.icr.validator.StudentValidator2;
 
 import javax.servlet.http.HttpSession;
@@ -80,7 +80,7 @@ public class UserController {
         Student u = userFacade.findUser(student.getUsername());
         Administrator a = adminService.findAdmin(student.getUsername());
 
-        if (studentValidator.validate(student, model, u, a,session)) {
+        if (StudentValidator.validate(student, model, u, a,session)) {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String passwordEncode = passwordEncoder.encode(student.getPassword());
             student.setPassword(passwordEncode);

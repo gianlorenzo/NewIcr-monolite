@@ -7,7 +7,7 @@ import it.uniroma3.icr.model.Job;
 import javax.servlet.http.HttpSession;
 
 
-public class jobValidator {
+public class JobValidator {
 
     public static boolean validate(Job job, Model model, HttpSession session) {
         boolean verifica = true;

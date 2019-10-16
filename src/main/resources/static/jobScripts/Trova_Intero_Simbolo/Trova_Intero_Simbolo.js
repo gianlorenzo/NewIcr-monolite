@@ -36,6 +36,11 @@ var ExtendedCanvas = (function () {
         $('.undoColor').hide();
         $('.undoRiga').hide();
         $('.selectword').hide();
+        $('.bottonRigtrasvDiv').hide();
+        $('.undoComponiTrasvDiv').hide();
+        $('.trasvDiv').hide();
+
+
         image.onload = function () {
             cb(this);
             firstcolor = null;

@@ -13,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
         c.drawTrasversalLines(e)
     });
     c.element.addEventListener('click', function (e) {
-        c.drawLines1(e)
-    });
-    c.element.addEventListener('click', function (e) {
         c.drawTrasversalLines1(e)
     });
 
@@ -36,6 +33,16 @@ document.addEventListener('DOMContentLoaded', function () {
         c.undoToStart();
     });
 
+    $("#undotoStartTrasvDiv").click(function () {
+        c.undoToStartTrasvDiv();
+    });
+    $("#undoRigaTrasvDiv").click(function () {
+        c.undoRigaTrasvDiv();
+    });
+
+    $("#undoComponiTrasvDiv").click(function () {
+        c.undoComponiTrasvDiv();
+    });
     $("#undoComponi").click(function () {
         c.undoComponi();
     });
@@ -43,6 +50,9 @@ document.addEventListener('DOMContentLoaded', function () {
         $("#output")[0].value = JSON.stringify(c.getOutput().sort());
         if (!c.checkAnswer()) $(".wrongAnswer").show();
         return c.checkAnswer();
+    });
+    $("#confermaFormTrasvDiv").click(function () {
+        $("#output")[0].value = JSON.stringify(c.getOutput().sort().concat($("#textTrasvDiv").val()));
     });
     $("#confermaFormCompleta").click(function () {
         c.setOutput($("#text").val());

@@ -8,7 +8,7 @@ import it.uniroma3.icr.model.Student;
 import javax.servlet.http.HttpSession;
 
 
-public class studentValidator {
+public class StudentValidator {
 
     public static boolean validate(Student student, Model model, Student u, Administrator a, HttpSession session) {
         boolean verifica = true;

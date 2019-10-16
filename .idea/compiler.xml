@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="icr" />
+        <module name="NewIcr-monolite1" />
         <module name="NewIcr-monolite" />
+        <module name="icr" />
       </profile>
     </annotationProcessing>
   </component>

@@ -38,6 +38,7 @@ var ExtendedCanvas = (function () {
         $('.undoRiga').hide();
         $('.buttonSi').hide();
         $('.buttonNo').hide();
+        $('.componi').hide();
         $('.selectword').hide();
         image.onload = function () {
             cb(this);
@@ -99,7 +100,7 @@ var ExtendedCanvas = (function () {
     }
 
 
-    
+
 
     ExtendedCanvas.prototype.fillImg = function (fillColor) {
         var stack = [];
@@ -125,40 +126,11 @@ var ExtendedCanvas = (function () {
         return this.output;
     }
 
-    ExtendedCanvas.prototype.drawLines1 = function () {
-        var started = false;
-        mouseClick1 = [];
-        prvX = 0;
-        prvY = 0;
-        $("#canvasWrapper").bind("mousedown", function (e) {
-            prvX = e.offsetX;
-            prvY = e.offsetY;
-            started = true;
-        });
-
-        $("#canvasWrapper").bind("mouseup", function (e) {
-            if (!started) return;
-            context.beginPath();
-            context.moveTo(e.offsetX, e.offsetY);
-            context.lineTo(e.offsetX, e.offsetX + canvas.height);
-            context.stroke();
-            context.closePath();
-            if (!mouseClick1.includes(e.offsetX)) {
-                mouseClick1.push(e.offsetX);
-            }
-            console.log("len:" + mouseClick.length);
-        });
-
-        console.log("mouseClick1"+mouseClick1);
-        return mouseClick1;
-
-    }
-
     ExtendedCanvas.prototype.drawTrasversalLines1 = function() {
         var startX = 0;
         var startY = 0;
         var isDown;
-        mouseClick = [];
+        mouseClick = this.output;
         $("#canvasWrapper").bind("mousedown", function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -169,7 +141,7 @@ var ExtendedCanvas = (function () {
             startY = mouseY;
 
         });
-        $("#canvasWrapper").bind("mouseup", function (e) {
+        $("#canvasWrapper").bind("mouseup", "mouseClick",  function (e) {
             e.preventDefault();
             e.stopPropagation();
             if(!isDown) return;
@@ -182,11 +154,9 @@ var ExtendedCanvas = (function () {
             context.stroke();
             context.closePath()
             isDown = false;
+
             mouseClick.push([startX,startY,mouseX,mouseY]);
             mouseClick.removeDuplicates();
-
-
-
         });
 
         $("#canvasWrapper").mouseout(function (e) {
@@ -197,8 +167,6 @@ var ExtendedCanvas = (function () {
             }
             isDown = false;
         });
-        console.log("mouseClick"+mouseClick);
-        return mouseClick;
     }
 
 
@@ -216,9 +184,45 @@ var ExtendedCanvas = (function () {
         return input;
     }
 
-    ExtendedCanvas.prototype.undoComponi = function () {
+    ExtendedCanvas.prototype.undoRigaTrasvDiv = function () {
+        o = this.output;
+        if (o.length > 0) {
+            o.splice(-1,1);
+            var canvasPic = new Image();
+            canvasPic.src = dataOrig;
+            canvasPic.onload = function () {
+                context.drawImage(canvasPic, 0, 0);
+                for (var i = 0; i < o.length; i++) {
+                    console.log("pop:"+o);
+                    for(var y=0;y<o[i].length;y++) {
+                        context.beginPath();
+                        context.moveTo(o[i][0],o[i][1]);
+                        context.lineTo(o[i][2],o[i][3]);
+                        context.stroke();
+                        context.closePath();
+                    }
+                }
+            };
+        }
 
-        document.getElementById('text').value = '';
+    }
+
+
+    ExtendedCanvas.prototype.undoToStartTrasvDiv = function () {
+        var canvasPic = new Image();
+        this.output = [];
+        canvasPic.src = dataOrig;
+        canvasPic.onload = function () {
+            context.drawImage(canvasPic, 0, 0);
+            data = context.getImageData(0, 0, canvas.width, canvas.height);
+        };
+
+
+    }
+
+    ExtendedCanvas.prototype.undoComponiTrasvDiv = function () {
+
+        document.getElementById('textTrasvDiv').value = '';
     }
 
     ExtendedCanvas.prototype.checkAnswer = function () {

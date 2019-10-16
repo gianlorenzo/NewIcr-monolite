@@ -19,7 +19,7 @@
             <h1>Inserisci Dati del Job</h1>
             <h4>Stai usando il manoscritto: <div th:text="${job.manuscript.name}"/></h4>
             <form th:action="@{/admin/addJobByManuscript}" method="post" th:object="${job}"
-                       name="form">
+                  name="form">
                 <div class="field-wrap">
                     <label> Tipologia </label>
                     <select th:id="tip"  th:field="*{typology}">
@@ -28,42 +28,40 @@
                                 th:utext="${typology.get(key)}"/>
                     </select>
                 </div>
-                <div class="symbolSelect">
-                    <label> Simbolo </label>
+                <div th:if="${not #lists.isEmpty(symbols)}">
+                    <label>Simbolo</label>
                     <select th:field="*{symbol}">
-                        <option value="">nessun_simbolo</option>
+                        <option th:if="${#lists.isEmpty(symbols)}" value="">nessun_simbolo</option>
                         <option th:each="key : ${symbols}"
                                 th:value="${key.id}"
                                 th:utext="${key.transcription}"/>
                     </select>
                 </div>
+
                 <br/>
                 <div class="field-wrap">
                     <label> Titolo </label>
                     <input type="text" th:field="*{title}"
-                                placeholder="Titolo"/>
+                           placeholder="Titolo"/>
+                    <font size="3" color="red"><span th:text="${session.errTitle}"/></font>
+
                 </div>
                 <div class="field-wrap">
                     <div class="field-wrap">
                         <label> #Studenti </label>
                         <input type="text" th:field="*{students}"
-                                    placeholder="Numero di Studenti" onBlur="isnum(this)"/>
-
+                               placeholder="Numero di Studenti" onBlur="isnum(this)"/>
+                        <font size="3" color="red"><span th:text="${session.errStudenti}"/></font>
                     </div>
                     <input type="hidden" th:value="${job.taskSize}" th:field="*{taskSize}"
-                                placeholder="Dimensione Task" onBlur="isnum(this)"/>
+                           placeholder="Dimensione Task" onBlur="isnum(this)"/>
                     <div class="field-wrap">
                         <label> Descrizione </label>
                         <textarea th:field="*{description}" placeholder="Descrizione"/>
+                        <font size="3" color="red"><span th:text="${session.errDescription}"/></font>
                     </div>
 
-                    <div class="field-wrap">
-                        <label> E' un tutorial? </label>
-                        <select th:field="*{tutorial}">
-                            <option th:value="false">NO</option>
-                            <option th:value="true">SI</option>
-                        </select>
-                    </div>
+                    <input type="hidden" th:value="false" th:field="*{tutorial}" placeholder="tutorial"/>
                     <div id="formsubmitbutton">
                         <button type="submit" class="button button-block" name="action"
                                 value="WORD" onclick="ButtonClicked()">Conferma

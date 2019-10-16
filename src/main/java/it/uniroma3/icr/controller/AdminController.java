@@ -37,7 +37,7 @@ import it.uniroma3.icr.model.Symbol;
 import it.uniroma3.icr.model.Task;
 import it.uniroma3.icr.service.editor.SymbolEditor;
 import it.uniroma3.icr.validator.AdminValidator;
-import it.uniroma3.icr.validator.jobValidator;
+import it.uniroma3.icr.validator.JobValidator;
 
 @Controller
 public class AdminController {
@@ -172,11 +172,13 @@ public class AdminController {
         model.addAttribute("task", task);
         model.addAttribute("manuscript", manuscript);
         Boolean bool = false;
+        int symbolsSize = manuscript.getSymbols().size();
+        model.addAttribute("symbolsSize", symbolsSize);
         List<Image> imagesTask = null;
         imagesTask = this.imageService.getImagesFromManuscriptName(manuscript.getId());
         bool = true;
 
-        if (jobValidator.validate(job, model,session)) {
+        if (JobValidator.validate(job, model,session)) {
             this.facadeJob.createJob(job, manuscript, imagesTask, bool, task);
             return "administration/jobRecap";
         } else {
